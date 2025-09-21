@@ -16,3 +16,42 @@ dev = [
     "pytest-asyncio>=1.2.0",
     "ruff>=0.13.1",
 ]
+
+[tool.pytest.ini_options]
+testpaths = ["tests/unit"]
+addopts = "-p no:warnings"
+asyncio_mode = "auto"
+pythonpath = ["."]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 120
+indent-width = 4
+include = ["src/**/*.py"]
+exclude = ["tests/*/*.py", "examples/*"]
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+    "ARG", "ANN",
+    "D100", "D101", "D102", "D103", "D104", "D106", "D107", "D205", "D400", "D415", "D419", "D200", "D203", "D211", "D212", "D417", "D401", "D413",
+    "COM812",
+    "E501", "EM101", "EM102",
+    "RUF001", "RUF002", "RUF003", "RET505",
+    "TC001", "TRY003", "TRY300", "TRY301",
+    "PYI013", "PIE790", "PLR0913", "PT018",
+    "G004",
+    "INP001",
+    "UP007",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["TID252", "PLR2004", "S101", "SLF001"]
+"examples/*" = ["T201"]
+"src/infrastructure/repository/migrations/versions/*" = ["W291"]
+
+[tool.ruff.lint.isort]
+no-lines-before = ["local-folder"]
+
+[tool.ruff.lint.flake8-tidy-imports]
+ban-relative-imports = "parents"
