@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "kitstructlog"
-version = "0.1.0"
+version = "0.1.1"
 description = "A superstructure over structlog that simplifies the configuration and use of structured logging in Python."
 readme = "README.md"
 requires-python = ">=3.13"
@@ -17,6 +17,22 @@ dependencies = [
     "structlog>=25.4.0",
     "twine>=6.2.0",
 ]
+
+keywords = ["logging", "structlog", "structured-logging", "json-logging"]
+
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Topic :: System :: Logging",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+
+[project.urls]
+Homepage = "https://github.com/morington/kitstructlog"
+Repository = "https://github.com/morington/kitstructlog"
+Issues = "https://github.com/morington/kitstructlog/issues"
 
 [dependency-groups]
 dev = [

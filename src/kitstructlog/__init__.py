@@ -1,8 +1,8 @@
 from kitstructlog.main import (
     InitLoggers,
-    LoggerReg,
     LoggerError,
     LoggerNotFoundError,
+    LoggerReg,
     SetupLogger,
 )
 

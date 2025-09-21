@@ -90,9 +90,7 @@ class SetupLogger:
     def _pre(self, *, extended: bool = False) -> list[Any]:
         base = [
             self._timestamper(),
-            structlog.processors.EventRenamer(
-                "event" if self._developer_mode else "_msg"
-            ),
+            structlog.processors.EventRenamer("event" if self._developer_mode else "_msg"),
             structlog.stdlib.add_log_level,
             structlog.processors.format_exc_info,
             structlog.processors.UnicodeDecoder(),
@@ -174,21 +172,13 @@ class InitLoggers:
     """Контейнер проектных логгеров."""
 
     def __init__(self, *, developer_mode: bool = False) -> None:
-        self._loggers = {
-            name: getattr(self, name)
-            for name in dir(self)
-            if isinstance(getattr(self, name), LoggerReg)
-        }
+        self._loggers = {name: getattr(self, name) for name in dir(self) if isinstance(getattr(self, name), LoggerReg)}
         if not self._loggers:
             _msg_no_loggers = "Ни одного логгера не определено в дочернем классе"
             raise LoggerError(_msg_no_loggers)
 
-        self._setup = SetupLogger(
-            list(self._loggers.values()), developer_mode=developer_mode
-        )
-        self._instances = {
-            reg.name: structlog.get_logger(reg.name) for reg in self._loggers.values()
-        }
+        self._setup = SetupLogger(list(self._loggers.values()), developer_mode=developer_mode)
+        self._instances = {reg.name: structlog.get_logger(reg.name) for reg in self._loggers.values()}
 
     def __getattr__(self, name: str):
         """Вернуть ранее созданный логгер по имени."""
