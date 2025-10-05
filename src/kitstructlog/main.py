@@ -19,11 +19,11 @@ __all__ = [
 
 
 class LoggerError(Exception):
-    """Общая ошибка системы логирования."""
+    """General logging system error."""
 
 
 class LoggerNotFoundError(LoggerError):
-    """Запрошенный логгер не зарегистрирован."""
+    """Requested logger is not registered."""
 
 
 def add_caller_details(_: logging.Logger, __: str, event_dict: EventDict) -> EventDict:
@@ -36,7 +36,7 @@ def add_caller_details(_: logging.Logger, __: str, event_dict: EventDict) -> Eve
 
 @dataclasses.dataclass(slots=True)
 class LoggerReg:
-    """Параметры отдельного логгера."""
+    """Parameters for an individual logger."""
 
     name: str
 
@@ -53,7 +53,7 @@ class LoggerReg:
 
 
 class SetupLogger:
-    """Настройка стандартного `logging` + `structlog`."""
+    """Setup for standard `logging` + `structlog`."""
 
     CONSOLE_HANDLER = "console"
     JSON_HANDLER = "json"
@@ -169,22 +169,22 @@ class SetupLogger:
 
 
 class InitLoggers:
-    """Контейнер проектных логгеров."""
+    """Container for project loggers."""
 
     def __init__(self, *, developer_mode: bool = False) -> None:
         self._loggers = {name: getattr(self, name) for name in dir(self) if isinstance(getattr(self, name), LoggerReg)}
         if not self._loggers:
-            _msg_no_loggers = "Ни одного логгера не определено в дочернем классе"
+            _msg_no_loggers = "No loggers have been defined in the subclass."
             raise LoggerError(_msg_no_loggers)
 
         self._setup = SetupLogger(list(self._loggers.values()), developer_mode=developer_mode)
         self._instances = {reg.name: structlog.get_logger(reg.name) for reg in self._loggers.values()}
 
     def __getattr__(self, name: str):
-        """Вернуть ранее созданный логгер по имени."""
+        """Return an existing logger instance by name."""
         try:
             return self._instances[name]
-        except KeyError as exc:  # pragma: no cover — должно ловиться тестами
+        except KeyError as exc:  # pragma: no cover — should be caught by tests
             registered = ", ".join(self._instances)
             _msg = f"Logger '{name}' not found. Available: {registered}"
             raise LoggerNotFoundError(_msg) from exc

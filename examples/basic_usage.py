@@ -7,9 +7,9 @@ class Loggers(InitLoggers):
     db = LoggerReg(name="DATABASE", level=LoggerReg.Level.DEBUG)
 
 
-# Инициализируем систему логирования
+# Initialize the logging system
 loggers = Loggers(developer_mode=True)
 
-# Используем логгер
+# Use a logger
 logger = structlog.getLogger(Loggers.app.name)
-logger.info("Приложение запущено", version="1.0.0")
+logger.info("Application started", version="1.0.0")
