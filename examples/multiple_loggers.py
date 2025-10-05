@@ -10,11 +10,12 @@ class Loggers(InitLoggers):
 
 loggers = Loggers(developer_mode=True)
 
-# В коде используем конкретный логгер
+# In the code, use a specific logger
 auth_logger = structlog.getLogger(Loggers.auth.name)
-auth_logger.debug("Проверка токена", token="abc123")
+auth_logger.debug("Token validation", token="abc123")
 
 router_logger = structlog.getLogger(Loggers.router.name)
-router_logger.info("Новый запрос", path="/api/v1/resource")
+router_logger.info("New request", path="/api/v1/resource")
 
-# В режиме разработки это не заметно, но в JSON типе с `developer_mode=False` там указывается Logger Name
+# In development mode this is not very noticeable,
+# but in JSON mode (with developer_mode=False) the Logger Name will be included in the output.
